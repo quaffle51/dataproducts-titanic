@@ -38,7 +38,7 @@ shinyServer(function(input, output) {
     }
   })
 
-  output$plot <- renderPlot({
+  output$scatter <- renderPlot({
     data <- dataset()
     p <- ggplot(data,
                 aes_string(x=input$x,
@@ -56,5 +56,24 @@ shinyServer(function(input, output) {
 
   })
 
+  output$box <- renderPlot({
+
+    cat(input$x, input$y, input$color, '\n')
+
+    p <- ggplot(data = dataset(),
+                mapping = aes(factor(input$x),
+                              input$y))
+
+    if (input$color != 'None') {
+      p <- p + geom_boxplot(mapping = aes_string(
+        fill = factor(input$color)))
+    }
+    else {
+      p <- p + geom_boxplot()
+    }
+
+    print(p)
+
+  })
 
 })

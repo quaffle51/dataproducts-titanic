@@ -17,12 +17,12 @@ shinyUI(pageWithSidebar(
     selectInput("dataset", "Choose a dataset:",
                 choices = c("train", "test", "combined")),
 
-    selectInput('x', 'X', names(dataset), 'PassengerID'),
+    selectInput('x', 'X', names(dataset), 'Age'),
 
-    selectInput('y', 'Y', names(dataset), 'Survived'),
+    selectInput('y', 'Y', names(dataset), 'Sex'),
 
     selectInput('color', 'Color',
-                c('None', names(dataset)), 'Sex'),
+                c('None', names(dataset)), 'Survived'),
 
     checkboxInput('smooth', 'Smooth')
 
@@ -35,7 +35,9 @@ shinyUI(pageWithSidebar(
                verbatimTextOutput("summary_of_x"),
                verbatimTextOutput("summary_of_y"),
                verbatimTextOutput("summary_of_color")),
-      tabPanel("Plot", plotOutput("plot"))
+
+      tabPanel("Box plot", plotOutput("box")),
+      tabPanel("Scatter plot", plotOutput("scatter"))
     )
   )
 
