@@ -1,5 +1,7 @@
+# load required packages
 require(shiny)
 require(ggplot2)
+require(rpart)
 
 # read the data
 load('titanictrain.Rdata')
@@ -36,7 +38,12 @@ shinyUI(pageWithSidebar(
                verbatimTextOutput("summary_of_y"),
                verbatimTextOutput("summary_of_color")),
 
-      tabPanel("Box plot", plotOutput("box")),
+      tabPanel("Box plot",
+               h2("Trees"),
+               sliderInput("decimal", "Complexity:",
+                           min=0.1, max=1.0,
+                           value=0.5, step = 0.1),
+               plotOutput("tree")),
       tabPanel("Scatter plot", plotOutput("scatter"))
     )
   )

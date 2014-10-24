@@ -1,5 +1,10 @@
+# load required packages
 require(shiny)
 require(ggplot2)
+require(rpart)
+require(rattle)
+require(rpart.plot)
+# require(RColorBrewer)
 
 # read the data
 load('titanictrain.Rdata')
@@ -75,5 +80,31 @@ shinyServer(function(input, output) {
     print(p)
 
   })
+
+  output$tree <- renderPlot({
+
+    # reactive update of dataset
+    data <- dataset()
+
+    # build a tree of the features
+    fit <- rpart(Survived ~ Pclass + Sex + Age +
+                   Fare + Embarked + Title + FamilySize +
+                   Child, data=data, method="class")
+
+    complexity <- input$complexity
+
+    fit <- prune(fit, cp = complexity)
+
+    cat(data$names)
+    cat(fit$variable.importance)
+
+    p <- fancyRpartPlot(fit)
+
+    print(p)
+
+  })
+
+
+
 
 })
